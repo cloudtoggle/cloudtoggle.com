@@ -1,0 +1,52 @@
+---
+import { Image } from 'astro:assets';
+import poster from '../assets/video-poster.jpg';
+import SectionHeading from './SectionHeading.astro';
+
+// Existing CLOUD TOGGLE video from the legacy homepage (YouTube, @cloudtoggle channel).
+const VIDEO_ID = 'gHdob-NM5HQ';
+const watchUrl = `https://www.youtube.com/watch?v=${VIDEO_ID}`;
+---
+
+<section id="video" class="py-24 sm:py-28">
+	<div class="mx-auto max-w-5xl px-5 sm:px-8">
+		<SectionHeading eyebrow="See it in action" title="CLOUD TOGGLE in under two minutes." lead="Watch how scheduling turns idle AWS and Azure servers into savings." />
+
+		<div class="relative mt-12" data-reveal>
+			<div class="absolute -inset-4 -z-10 rounded-[2rem] bg-gradient-to-br from-brand-100/80 via-transparent to-on/10 blur-2xl" aria-hidden="true"></div>
+			<div class="overflow-hidden rounded-2xl border border-ink-200/80 bg-night shadow-window" data-video data-id={VIDEO_ID}>
+				<!-- Facade: no third-party code loads until the visitor presses play. Works as a plain link without JS. -->
+				<a
+					href={watchUrl}
+					rel="noopener"
+					class="group relative block aspect-video w-full"
+					aria-label="Play video: CLOUD TOGGLE overview"
+					data-video-play
+				>
+					<Image src={poster} alt="" widths={[640, 960, 1280]} sizes="(min-width: 1024px) 960px, 92vw" class="size-full object-cover" />
+					<span class="absolute inset-0 bg-night/30 transition group-hover:bg-night/15" aria-hidden="true"></span>
+					<span class="absolute left-1/2 top-1/2 flex size-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-nav shadow-window transition duration-300 group-hover:scale-110 sm:size-24" aria-hidden="true">
+						<svg viewBox="0 0 24 24" class="ml-1 size-8 sm:size-10" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z" /></svg>
+					</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-video]').forEach((box) => {
+		const link = box.querySelector<HTMLAnchorElement>('[data-video-play]');
+		link?.addEventListener('click', (e) => {
+			e.preventDefault();
+			const frame = document.createElement('iframe');
+			frame.src = `https://www.youtube-nocookie.com/embed/${box.dataset.id}?autoplay=1&rel=0`;
+			frame.title = 'CLOUD TOGGLE overview video';
+			frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+			frame.allowFullscreen = true;
+			frame.className = 'aspect-video w-full';
+			link.replaceWith(frame);
+			frame.focus();
+		});
+	});
+</script>
