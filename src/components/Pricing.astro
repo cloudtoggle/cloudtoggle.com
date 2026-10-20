@@ -1,0 +1,67 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { PLANS, LINKS } from '../data/site';
+
+const rows: { label: string; key: 'servers' | 'teams' | 'users' | 'connections' }[] = [
+	{ label: 'Servers', key: 'servers' },
+	{ label: 'Teams', key: 'teams' },
+	{ label: 'Users', key: 'users' },
+	{ label: 'Cloud connections', key: 'connections' },
+];
+---
+
+<section id="pricing" class="py-24 sm:py-28">
+	<div class="mx-auto max-w-6xl px-5 sm:px-8">
+		<SectionHeading eyebrow="Pricing" title="Simple plans that pay for themselves." lead="Choose a plan by the number of servers you manage. Every plan includes scheduling, manual overrides, and users and teams." />
+
+		<div class="mt-14 grid gap-5 lg:grid-cols-3">
+			{PLANS.map((p, i) => (
+				<div
+					class:list={[
+						'relative flex flex-col rounded-2xl border bg-white p-7 transition duration-300 hover:-translate-y-1',
+						p.featured ? 'border-brand-500 shadow-window ring-1 ring-brand-500' : 'border-ink-100 shadow-card',
+					]}
+					data-reveal
+					style={`--reveal-delay: ${i * 90}ms`}
+				>
+					{p.trial && <span class="absolute -top-3 left-7 rounded-full bg-on-soft px-3 py-1 text-xs font-semibold text-[#067a0a] ring-1 ring-on/30">30-day free trial</span>}
+					{p.featured && <span class="absolute -top-3 left-7 rounded-full bg-brand-600 px-3 py-1 text-xs font-semibold text-white">Most popular</span>}
+					<h3 class="text-lg font-semibold text-ink-950">{p.name}</h3>
+					<p class="mt-1 min-h-12 text-sm leading-6 text-ink-500">{p.blurb}</p>
+					<p class="mt-6 flex items-baseline gap-1">
+						<span class="text-5xl font-semibold tracking-tight text-ink-950">${p.price}</span>
+						<span class="text-ink-500">/ month</span>
+					</p>
+					<a
+						href={p.href}
+						class:list={[
+							'mt-6 inline-flex h-11 items-center justify-center rounded-full text-sm font-medium transition active:scale-[0.98]',
+							p.featured || p.trial ? 'bg-brand-600 text-white hover:bg-brand-700' : 'border border-ink-200 text-ink-900 hover:border-ink-400 hover:bg-ink-50',
+						]}
+					>
+						{p.trial ? 'Start Free Trial' : 'Get Started'}
+					</a>
+					<ul class="mt-7 space-y-3 border-t border-ink-100 pt-6 text-sm text-ink-700">
+						{rows.map((r) => (
+							<li class="flex items-center justify-between">
+								<span class="text-ink-500">{r.label}</span>
+								<span class="font-mono font-medium text-ink-950">Up to {p[r.key]}</span>
+							</li>
+						))}
+					</ul>
+				</div>
+			))}
+		</div>
+
+		<div class="mt-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-ink-100 bg-ink-50 p-6 text-center sm:flex-row sm:text-left" data-reveal>
+			<div>
+				<p class="font-semibold text-ink-950">Need more than 200 servers, or something custom?</p>
+				<p class="mt-1 text-sm text-ink-500">We'll put together a plan that fits.</p>
+			</div>
+			<div class="flex gap-3">
+				<a href={LINKS.contact} class="inline-flex h-10 items-center rounded-full border border-ink-200 bg-white px-5 text-sm font-medium hover:border-ink-400">Contact us</a>
+				<a href={LINKS.demo} rel="noopener" class="inline-flex h-10 items-center rounded-full bg-ink-950 px-5 text-sm font-medium text-white hover:bg-ink-800">Book a Demo</a>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,99 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/PostCard.astro';
+import Button from '../../components/Button.astro';
+import { LINKS, SITE } from '../../data/site';
+
+// Same URLs as the legacy site: /blog-en/<slug>/
+export const getStaticPaths = (async () => {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const d = post.data;
+
+const all = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const idx = all.findIndex((p) => p.id === post.id);
+const related = [...all.slice(Math.max(0, idx + 1), idx + 4)];
+while (related.length < 3) {
+	const next = all.find((p) => p.id !== post.id && !related.includes(p));
+	if (!next) break;
+	related.push(next);
+}
+
+const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const url = `${SITE.url}/blog-en/${post.id}/`;
+const image = d.image ? new URL(d.image, SITE.url).href : undefined;
+
+const jsonLd = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'Article',
+		headline: d.title,
+		description: d.description,
+		image: image ? [image] : undefined,
+		datePublished: d.pubDate.toISOString(),
+		dateModified: d.updatedDate.toISOString(),
+		mainEntityOfPage: url,
+		author: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+		publisher: { '@type': 'Organization', name: SITE.name, logo: { '@type': 'ImageObject', url: `${SITE.url}/wp-content/uploads/2024/02/ct-logo-transparent.png` } },
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{ '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url + '/' },
+			{ '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE.url}/category/blog-en/` },
+			{ '@type': 'ListItem', position: 3, name: d.title, item: url },
+		],
+	},
+];
+---
+
+<Layout
+	title={d.seoTitle ?? d.title}
+	description={d.description}
+	image={d.image}
+	type="article"
+	publishedTime={d.pubDate.toISOString()}
+	modifiedTime={d.updatedDate.toISOString()}
+	jsonLd={jsonLd}
+>
+	<article class="mx-auto max-w-3xl px-5 pb-8 pt-14 sm:px-8 sm:pt-20">
+		<nav aria-label="Breadcrumb" class="font-mono text-xs text-ink-400">
+			<a href="/" class="hover:text-ink-950">Home</a> / <a href="/category/blog-en/" class="hover:text-ink-950">Blog</a>
+		</nav>
+		<h1 class="h-display mt-5 text-3xl sm:text-5xl sm:leading-[1.08]">{d.title}</h1>
+		<p class="mt-5 font-mono text-xs text-ink-400">
+			<time datetime={d.pubDate.toISOString()}>{fmt.format(d.pubDate)}</time>
+			{d.readingTime && <span> · {d.readingTime} read</span>}
+		</p>
+		{d.image && (
+			<img src={d.image} alt={d.imageAlt ?? ''} width="1312" height="736" fetchpriority="high" decoding="async" class="mt-10 aspect-[16/9] w-full rounded-2xl border border-ink-100 object-cover" />
+		)}
+		<div class="prose-ct mt-10"><Content /></div>
+
+		<aside class="relative isolate mt-16 overflow-hidden rounded-2xl bg-ink-950 p-8 text-center sm:p-10">
+			<div class="pointer-events-none absolute -top-24 left-1/2 -z-10 h-56 w-[500px] -translate-x-1/2 rounded-full bg-brand-500/30 blur-3xl" aria-hidden="true"></div>
+			<h2 class="text-2xl font-semibold tracking-tight text-white">Stop paying for servers you're not using</h2>
+			<p class="mx-auto mt-3 max-w-md text-ink-200">Schedule your AWS and Azure servers off outside working hours with CLOUD TOGGLE.</p>
+			<div class="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+				<Button href={LINKS.trial} variant="light">Start Free Trial</Button>
+				<Button href={LINKS.demo} variant="ghost" class="border border-white/25 !text-white hover:!bg-white/10" external>Book a Demo</Button>
+			</div>
+		</aside>
+	</article>
+
+	{related.length > 0 && (
+		<section class="mx-auto max-w-6xl px-5 pb-24 pt-12 sm:px-8">
+			<h2 class="text-xl font-semibold tracking-tight text-ink-950">More from the blog</h2>
+			<div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+				{related.map((p) => <PostCard post={p} />)}
+			</div>
+		</section>
+	)}
+</Layout>

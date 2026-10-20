@@ -1,0 +1,71 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+import { LINKS } from '../data/site';
+
+const cols = [
+	{
+		title: 'Product',
+		links: [
+			{ label: 'Features', href: '/#features' },
+			{ label: 'How it works', href: '/#how-it-works' },
+			{ label: 'Savings calculator', href: '/#calculator' },
+			{ label: 'Pricing', href: '/#pricing' },
+		],
+	},
+	{
+		title: 'Resources',
+		links: [
+			{ label: 'Blog', href: '/category/blog-en/' },
+			{ label: 'Help centre', href: LINKS.help },
+			{ label: 'AWS setup guide', href: LINKS.helpAws },
+			{ label: 'Azure setup guide', href: LINKS.helpAzure },
+		],
+	},
+	{
+		title: 'Company',
+		links: [
+			{ label: 'Contact', href: '/contact/' },
+			{ label: 'Book a demo', href: LINKS.demo },
+			{ label: 'Log in', href: LINKS.login },
+			{ label: 'X (Twitter)', href: LINKS.x },
+			{ label: 'YouTube', href: LINKS.youtube },
+		],
+	},
+];
+---
+
+<footer class="border-t border-ink-100 bg-ink-50">
+	<div class="mx-auto max-w-6xl px-5 py-14 sm:px-8">
+		<div class="grid gap-10 md:grid-cols-[1.4fr_repeat(3,1fr)]">
+			<div>
+				<a href="/" class="flex items-center gap-2.5" aria-label="CLOUD TOGGLE home">
+					<Image src={logo} alt="" width={44} height={33} class="h-8 w-auto" />
+					<span class="text-[15px] font-semibold tracking-[0.04em] text-ink-950">CLOUD TOGGLE</span>
+				</a>
+				<p class="mt-4 max-w-xs text-sm leading-6 text-ink-500">
+					Schedule your AWS and Azure servers to run only when they're needed.
+				</p>
+			</div>
+			{cols.map((col) => (
+				<nav aria-label={col.title}>
+					<h2 class="text-sm font-semibold text-ink-950">{col.title}</h2>
+					<ul class="mt-4 space-y-2.5">
+						{col.links.map((l) => (
+							<li>
+								<a href={l.href} class="text-sm text-ink-500 transition-colors hover:text-ink-950" rel={l.href.startsWith('http') ? 'noopener' : undefined}>{l.label}</a>
+							</li>
+						))}
+					</ul>
+				</nav>
+			))}
+		</div>
+		<div class="mt-12 flex flex-col gap-3 border-t border-ink-200 pt-6 text-sm text-ink-500 sm:flex-row sm:items-center sm:justify-between">
+			<p>Copyright © CLOUD TOGGLE {new Date().getFullYear()}. All rights reserved.</p>
+			<p class="flex gap-5">
+				<a href="/terms-and-conditions/" class="hover:text-ink-950">Terms and Conditions</a>
+				<a href="/privacy-policy/" class="hover:text-ink-950">Privacy Policy</a>
+			</p>
+		</div>
+	</div>
+</footer>

@@ -1,0 +1,95 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../data/site';
+
+interface Props {
+	title: string;
+	description?: string;
+	image?: string;
+	type?: 'website' | 'article';
+	noindex?: boolean;
+	jsonLd?: object | object[];
+	canonical?: string;
+	publishedTime?: string;
+	modifiedTime?: string;
+}
+
+const {
+	title,
+	description = SITE.tagline,
+	image = '/og-default.png',
+	type = 'website',
+	noindex = false,
+	jsonLd,
+	canonical,
+	publishedTime,
+	modifiedTime,
+} = Astro.props;
+
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, SITE.url).href;
+const ogImage = new URL(image, SITE.url).href;
+const schemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+
+<!doctype html>
+<html lang="en-GB">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="theme-color" content="#ffffff" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalUrl} />
+		{noindex && <meta name="robots" content="noindex, follow" />}
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" sizes="32x32" />
+		<link rel="sitemap" href="/sitemap-index.xml" />
+
+		<meta property="og:site_name" content={SITE.name} />
+		<meta property="og:locale" content="en_GB" />
+		<meta property="og:type" content={type} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:image" content={ogImage} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content={SITE.twitter} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
+		{publishedTime && <meta property="article:published_time" content={publishedTime} />}
+		{modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+
+		{schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+		<script is:inline>document.documentElement.classList.add('js');</script>
+	</head>
+	<body>
+		<Header />
+		<main id="main">
+			<slot />
+		</main>
+		<Footer />
+		<script>
+			// Scroll-reveal: one shared observer for every [data-reveal] element.
+			const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
+			if (!('IntersectionObserver' in window)) {
+				els.forEach((el) => el.classList.add('is-visible'));
+			} else {
+				const io = new IntersectionObserver(
+					(entries) =>
+						entries.forEach((e) => {
+							if (e.isIntersecting) {
+								e.target.classList.add('is-visible');
+								io.unobserve(e.target);
+							}
+						}),
+					{ rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+				);
+				els.forEach((el) => io.observe(el));
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { LINKS } from '../data/site';
+---
+
+<Layout title="Contact | CLOUD TOGGLE" description="Talk to the CLOUD TOGGLE team: book a demo, get help setting up, or ask about a custom plan.">
+	<section class="mx-auto max-w-4xl px-5 py-20 sm:px-8 sm:py-28">
+		<SectionHeading as="h1" eyebrow="Contact" title="Talk to the CLOUD TOGGLE team." lead="The fastest way to get answers is a short call. Prefer to read first? The help centre has step-by-step setup guides." />
+		<div class="mt-14 grid gap-5 sm:grid-cols-2">
+			<div class="rounded-2xl border border-ink-100 bg-white p-7 shadow-card" data-reveal>
+				<h2 class="text-lg font-semibold text-ink-950">Book a demo</h2>
+				<p class="mt-2 text-ink-500">30 minutes to walk through your AWS or Azure setup and what you could save.</p>
+				<Button href={LINKS.demo} class="mt-6" external>Book a Demo</Button>
+			</div>
+			<div class="rounded-2xl border border-ink-100 bg-white p-7 shadow-card" data-reveal style="--reveal-delay: 80ms">
+				<h2 class="text-lg font-semibold text-ink-950">Help centre</h2>
+				<p class="mt-2 text-ink-500">Setup guides for AWS and Azure connections, plus technical articles. You can ask the team from there too.</p>
+				<Button href={LINKS.help} variant="secondary" class="mt-6" external>Visit the help centre</Button>
+			</div>
+		</div>
+		<p class="mt-8 text-center text-sm text-ink-500">Need more than 200 servers or a custom plan? Book a demo and tell us what you need.</p>
+	</section>
+</Layout>

@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+---
+
+<Layout title="Page not found | CLOUD TOGGLE" noindex>
+	<section class="mx-auto flex max-w-2xl flex-col items-center px-5 py-28 text-center sm:py-40">
+		<p class="eyebrow">404</p>
+		<h1 class="h-display mt-3 text-4xl sm:text-5xl">This page is switched off.</h1>
+		<p class="mt-4 text-lg text-ink-500">We couldn't find what you were looking for. Try the homepage or the blog.</p>
+		<div class="mt-8 flex gap-3">
+			<Button href="/">Back to home</Button>
+			<Button href="/category/blog-en/" variant="secondary">Read the blog</Button>
+		</div>
+	</section>
+</Layout>

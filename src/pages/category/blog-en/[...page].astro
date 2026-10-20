@@ -1,0 +1,48 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import Layout from '../../../layouts/Layout.astro';
+import PostCard from '../../../components/PostCard.astro';
+import SectionHeading from '../../../components/SectionHeading.astro';
+
+// Same URLs as the legacy WordPress category archive: /category/blog-en/ and /category/blog-en/page/N/
+export const getStaticPaths = (async ({ paginate }) => {
+	const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+	// Rewrite /category/blog-en/2/ to /category/blog-en/page/2/ to match WordPress.
+	return paginate(posts, { pageSize: 12 }).map((route) => ({
+		...route,
+		params: { page: route.params.page === '1' || !route.params.page ? undefined : `page/${route.params.page}` },
+	}));
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const base = '/category/blog-en/';
+const href = (n: number) => (n === 1 ? base : `${base}page/${n}/`);
+const title = page.currentPage === 1 ? 'Blog | CLOUD TOGGLE' : `Blog, page ${page.currentPage} | CLOUD TOGGLE`;
+---
+
+<Layout
+	title={title}
+	description="Practical guides to cutting AWS and Azure costs, cloud scheduling, FinOps and cloud infrastructure from the CLOUD TOGGLE team."
+	canonical={href(page.currentPage)}
+>
+	<section class="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+		<SectionHeading as="h1" eyebrow="Blog" title="Cloud cost guides for teams on AWS and Azure." lead="Practical advice on cutting waste, scheduling infrastructure and keeping cloud bills under control." />
+
+		<div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+			{page.data.map((post) => <PostCard post={post} />)}
+		</div>
+
+		{page.lastPage > 1 && (
+			<nav class="mt-14 flex items-center justify-between" aria-label="Pagination">
+				{page.currentPage > 1 ? (
+					<a href={href(page.currentPage - 1)} rel="prev" class="rounded-full border border-ink-200 px-5 py-2.5 text-sm font-medium hover:border-ink-400 hover:bg-ink-50">← Newer posts</a>
+				) : <span />}
+				<p class="font-mono text-xs text-ink-400">Page {page.currentPage} of {page.lastPage}</p>
+				{page.currentPage < page.lastPage ? (
+					<a href={href(page.currentPage + 1)} rel="next" class="rounded-full border border-ink-200 px-5 py-2.5 text-sm font-medium hover:border-ink-400 hover:bg-ink-50">Older posts →</a>
+				) : <span />}
+			</nav>
+		)}
+	</section>
+</Layout>

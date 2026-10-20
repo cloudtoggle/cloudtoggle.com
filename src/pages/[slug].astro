@@ -1,0 +1,21 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+// Legal pages, kept at their legacy WordPress URLs (/terms-and-conditions/, /privacy-policy/).
+export const getStaticPaths = (async () => {
+	const pages = await getCollection('pages');
+	return pages.map((page) => ({ params: { slug: page.id }, props: { page } }));
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+---
+
+<Layout title={`${page.data.title} | CLOUD TOGGLE`} description={`${page.data.title} for CLOUD TOGGLE.`}>
+	<article class="mx-auto max-w-3xl px-5 py-16 sm:px-8 sm:py-24">
+		<h1 class="h-display text-4xl sm:text-5xl">{page.data.title}</h1>
+		<div class="prose-ct mt-10"><Content /></div>
+	</article>
+</Layout>

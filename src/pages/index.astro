@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Providers from '../components/Providers.astro';
+import Calculator from '../components/Calculator.astro';
+import Steps from '../components/Steps.astro';
+import Features from '../components/Features.astro';
+import Pricing from '../components/Pricing.astro';
+import Security from '../components/Security.astro';
+import Faq from '../components/Faq.astro';
+import FinalCta from '../components/FinalCta.astro';
+import { FAQS, PLANS, SITE } from '../data/site';
+
+const title = 'CLOUD TOGGLE: Cut AWS and Azure costs by scheduling servers off';
+const description =
+	'CLOUD TOGGLE automatically switches your AWS and Azure servers off when they are not needed and back on when they are. Start a 30-day free trial or book a demo.';
+
+const jsonLd = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'Organization',
+		name: SITE.name,
+		url: SITE.url,
+		logo: `${SITE.url}/wp-content/uploads/2024/02/ct-logo-transparent.png`,
+		sameAs: ['https://x.com/cloudtoggle', 'https://www.youtube.com/@cloudtoggle'],
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		name: SITE.name,
+		url: SITE.url,
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'SoftwareApplication',
+		name: SITE.name,
+		applicationCategory: 'BusinessApplication',
+		operatingSystem: 'Web',
+		description,
+		offers: PLANS.map((p) => ({
+			'@type': 'Offer',
+			name: p.name,
+			price: p.price,
+			priceCurrency: 'USD',
+			url: p.href,
+		})),
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'FAQPage',
+		mainEntity: FAQS.map((f) => ({
+			'@type': 'Question',
+			name: f.q,
+			acceptedAnswer: { '@type': 'Answer', text: f.a },
+		})),
+	},
+];
+---
+
+<Layout title={title} description={description} jsonLd={jsonLd}>
+	<Hero />
+	<Providers />
+	<Calculator />
+	<Steps />
+	<Features />
+	<Pricing />
+	<Security />
+	<Faq />
+	<FinalCta />
+</Layout>

@@ -1,0 +1,58 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { LINKS } from '../data/site';
+
+// Every item below is taken from Cloud Toggle's public setup guides and product pages.
+const items = [
+	{
+		title: 'IAM roles with an external ID',
+		body: 'Connect AWS with an IAM role, the recommended method, protected by an external ID of at least 20 characters. Account keys are also supported.',
+		icon: 'M10 2.5 4 5v4.5c0 3.6 2.4 6.3 6 8 3.6-1.7 6-4.4 6-8V5l-6-2.5Zm-2 7.3 1.6 1.6L12.5 8',
+	},
+	{
+		title: 'Scoped Azure roles',
+		body: 'Azure access is granted through an app registration with the Virtual Machine Contributor and Monitoring Contributor roles on the subscription you connect.',
+		icon: 'M4 5h12M4 10h12M4 15h7',
+	},
+	{
+		title: 'Features, not full account access',
+		body: 'Let people turn servers on and off without giving them access to your whole AWS or Azure account.',
+		icon: 'M7 9V6.5a3 3 0 0 1 6 0V9m-8 0h10v7H5V9Z',
+	},
+	{
+		title: 'Role-based users and teams',
+		body: 'Owner, Administrator and User permissions, plus teams, so the right people can act when they need to.',
+		icon: 'M7 9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm6.5 1a2 2 0 1 0 0-4m-11 10c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4m1.5-4c1.8 0 3.5 1 3.5 3',
+	},
+	{
+		title: 'Test before you connect',
+		body: 'Every connection has a built-in test, so you know the credentials work before anything is scheduled.',
+		icon: 'M3.5 10.5l4 4 9-9',
+	},
+	{
+		title: 'You choose what is imported',
+		body: 'Servers are fetched automatically by default, or turn that off and add only the ones you want managed.',
+		icon: 'M3 5h14M6 10h8M8.5 15h3',
+	},
+];
+---
+
+<section id="security" class="border-t border-ink-100 bg-ink-50/50 py-24 sm:py-28">
+	<div class="mx-auto max-w-6xl px-5 sm:px-8">
+		<SectionHeading eyebrow="Security and control" title="Built so the right people hold the switch." lead="How Cloud Toggle connects to your cloud, and how you control who can use it." />
+		<div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+			{items.map((it, i) => (
+				<div class="rounded-2xl border border-ink-100 bg-white p-6 shadow-card" data-reveal style={`--reveal-delay: ${(i % 3) * 80}ms`}>
+					<span class="inline-flex size-10 items-center justify-center rounded-lg bg-ink-950 text-brand-400">
+						<svg viewBox="0 0 20 20" class="size-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={it.icon} /></svg>
+					</span>
+					<h3 class="mt-5 text-base font-semibold text-ink-950">{it.title}</h3>
+					<p class="mt-2 text-sm leading-6 text-ink-500">{it.body}</p>
+				</div>
+			))}
+		</div>
+		<p class="mt-8 text-center text-sm text-ink-500" data-reveal>
+			Reviewing us for a security questionnaire? <a class="font-medium text-brand-600 underline underline-offset-4" href={LINKS.demo} rel="noopener">Book a demo</a> or <a class="font-medium text-brand-600 underline underline-offset-4" href={LINKS.contact}>contact us</a> and we'll answer your questions directly.
+		</p>
+	</div>
+</section>

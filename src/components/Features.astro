@@ -1,0 +1,92 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import BrowserFrame from './BrowserFrame.astro';
+import schedulerCustom from '../assets/screens/cloudtoggle-scheduler-custom.png';
+import servers from '../assets/screens/cloudtoggle-server-management.png';
+import users from '../assets/screens/cloudtoggle-user-management-blur.png';
+import Button from './Button.astro';
+import { LINKS } from '../data/site';
+
+const features = [
+	{
+		id: 'scheduling',
+		eyebrow: 'Scheduling',
+		title: 'Daily and weekly schedules, down to the quarter hour.',
+		body: 'Build a schedule once and apply it to as many servers as you need. Pick the time zone, choose a 15 or 60 minute resolution and click the hours you want servers running.',
+		points: ['Daily and weekly schedules with precise timing', 'Time zone aware, so "9 to 6" means your 9 to 6', 'One schedule can cover many servers'],
+		img: schedulerCustom,
+		alt: 'The CLOUD TOGGLE schedule editor with a 15 minute resolution grid, showing a short maintenance window on Thursday.',
+		label: 'Schedules',
+	},
+	{
+		id: 'overrides',
+		eyebrow: 'Manual overrides',
+		title: 'Plans change. Override in seconds.',
+		body: 'Someone needs the test environment tonight? Turn the server on from your server list. Your schedule picks up again afterwards, with no cloud console and no support ticket.',
+		points: ['Every server, in AWS and Azure, in one list', 'See state, schedule, cloud connection and operating system at a glance', 'Filter by state, cloud connection or location'],
+		img: servers,
+		alt: 'The CLOUD TOGGLE Manage Servers table listing Azure and AWS virtual machines with their on and off state, schedule and cloud connection.',
+		label: 'Manage Servers',
+	},
+	{
+		id: 'access',
+		eyebrow: 'Access control and teams',
+		title: 'Share the switch, not the cloud account.',
+		body: 'Give people access to specific features without letting them into your entire AWS or Azure account. Invite users, group them into role-based teams and decide who can do what.',
+		points: ['Individual users and role-based teams', 'Owner, Administrator and User permissions', 'No need to hand out cloud console access'],
+		img: users,
+		alt: 'The CLOUD TOGGLE Users page with names and emails blurred, showing teams and permission levels such as User, Administrator and Owner.',
+		label: 'Users',
+	},
+];
+
+const small = [
+	{ title: 'AWS and Azure in one place', body: 'Manage servers from both clouds in a single view and on one set of schedules.' },
+	{ title: 'No engineering skills needed', body: 'A simple interface so anyone on the team can cut waste in a few clicks.' },
+	{ title: 'Pricing that scales with you', body: 'A flat monthly plan, starting at $49, based on how many servers you manage.' },
+];
+---
+
+<section id="features" class="border-t border-ink-100 bg-ink-50/50 py-24 sm:py-28">
+	<div class="mx-auto max-w-6xl px-5 sm:px-8">
+		<SectionHeading eyebrow="Features" title="Everything you need to switch off waste. Nothing you don't." />
+
+		<div class="mt-20 space-y-24 sm:space-y-32">
+			{features.map((f, i) => (
+				<article id={f.id} class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+					<div class:list={[i % 2 === 1 && 'lg:order-2']} data-reveal>
+						<p class="eyebrow">{f.eyebrow}</p>
+						<h3 class="h-display mt-3 text-2xl sm:text-3xl lg:text-4xl lg:leading-[1.12]">{f.title}</h3>
+						<p class="mt-4 text-lg leading-8 text-ink-500">{f.body}</p>
+						<ul class="mt-6 space-y-3">
+							{f.points.map((p) => (
+								<li class="flex gap-3 text-ink-700">
+									<svg viewBox="0 0 20 20" class="mt-1 size-5 shrink-0 text-on" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="8" class="fill-on-soft stroke-none" /><path d="M6.5 10.2l2.4 2.3 4.6-5" /></svg>
+									{p}
+								</li>
+							))}
+						</ul>
+					</div>
+					<div class="relative mx-auto w-full max-w-md lg:max-w-none" data-reveal style="--reveal-delay: 100ms">
+						<div class="absolute -inset-4 -z-10 rounded-[2rem] bg-gradient-to-br from-brand-100/70 to-transparent blur-xl" aria-hidden="true"></div>
+						<div class="max-h-[34rem] overflow-hidden rounded-2xl">
+							<BrowserFrame src={f.img} alt={f.alt} label={f.label} sizes="(min-width: 1024px) 520px, 92vw" class="[&_img]:object-top" />
+						</div>
+					</div>
+				</article>
+			))}
+		</div>
+
+		<div class="mt-24 grid gap-4 sm:grid-cols-3">
+			{small.map((s, i) => (
+				<div class="rounded-2xl border border-ink-100 bg-white p-6 shadow-card" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+					<h3 class="text-base font-semibold text-ink-950">{s.title}</h3>
+					<p class="mt-2 text-sm leading-6 text-ink-500">{s.body}</p>
+				</div>
+			))}
+		</div>
+		<div class="mt-10 flex justify-center" data-reveal>
+			<Button href={LINKS.demo} variant="secondary" size="lg" external>Book a Demo</Button>
+		</div>
+	</div>
+</section>

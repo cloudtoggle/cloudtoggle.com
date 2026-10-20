@@ -1,0 +1,22 @@
+---
+import Button from './Button.astro';
+import { LINKS } from '../data/site';
+---
+
+<section class="px-5 pb-24 sm:px-8 sm:pb-28">
+	<div class="relative isolate mx-auto max-w-6xl overflow-hidden rounded-3xl bg-ink-950 px-6 py-16 text-center sm:px-12 sm:py-20" data-reveal>
+		<div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+			<div class="absolute left-1/2 top-0 h-80 w-[700px] -translate-x-1/2 rounded-full bg-brand-500/30 blur-3xl"></div>
+			<div
+				class="absolute inset-0 opacity-40"
+				style="background-image: linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse 60% 70% at 50% 0%, black, transparent); -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 0%, black, transparent);"
+			></div>
+		</div>
+		<h2 class="h-display mx-auto max-w-2xl !text-white text-3xl sm:text-5xl sm:leading-[1.08]">Ready to start saving?</h2>
+		<p class="mx-auto mt-5 max-w-xl text-lg leading-8 text-ink-200">Try CLOUD TOGGLE free for 30 days, or book a demo and we'll walk through your setup.</p>
+		<div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+			<Button href={LINKS.trial} variant="light" size="lg">Start Free Trial</Button>
+			<Button href={LINKS.demo} variant="ghost" size="lg" class="border border-white/25 !text-white hover:!bg-white/10" external>Book a Demo</Button>
+		</div>
+	</div>
+</section>
