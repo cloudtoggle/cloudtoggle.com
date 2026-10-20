@@ -35,36 +35,36 @@ const cols = [
 ];
 ---
 
-<footer class="border-t border-ink-100 bg-ink-50">
+<footer class="bg-nav text-white">
 	<div class="mx-auto max-w-6xl px-5 py-14 sm:px-8">
 		<div class="grid gap-10 md:grid-cols-[1.4fr_repeat(3,1fr)]">
 			<div>
 				<a href="/" class="flex items-center gap-2.5" aria-label="CLOUD TOGGLE home">
 					<Image src={logo} alt="" width={44} height={33} class="h-8 w-auto" />
-					<span class="text-[15px] font-semibold tracking-[0.04em] text-ink-950">CLOUD TOGGLE</span>
+					<span class="text-[15px] font-semibold tracking-[0.04em] text-white">CLOUD TOGGLE</span>
 				</a>
-				<p class="mt-4 max-w-xs text-sm leading-6 text-ink-500">
+				<p class="mt-4 max-w-xs text-sm leading-6 text-white/75">
 					Schedule your AWS and Azure servers to run only when they're needed.
 				</p>
 			</div>
 			{cols.map((col) => (
 				<nav aria-label={col.title}>
-					<h2 class="text-sm font-semibold text-ink-950">{col.title}</h2>
+					<h2 class="text-sm font-semibold text-white">{col.title}</h2>
 					<ul class="mt-4 space-y-2.5">
 						{col.links.map((l) => (
 							<li>
-								<a href={l.href} class="text-sm text-ink-500 transition-colors hover:text-ink-950" rel={l.href.startsWith('http') ? 'noopener' : undefined}>{l.label}</a>
+								<a href={l.href} class="text-sm text-white/75 transition-colors hover:text-white" rel={l.href.startsWith('http') ? 'noopener' : undefined}>{l.label}</a>
 							</li>
 						))}
 					</ul>
 				</nav>
 			))}
 		</div>
-		<div class="mt-12 flex flex-col gap-3 border-t border-ink-200 pt-6 text-sm text-ink-500 sm:flex-row sm:items-center sm:justify-between">
+		<div class="mt-12 flex flex-col gap-3 border-t border-white/15 pt-6 text-sm text-white/70 sm:flex-row sm:items-center sm:justify-between">
 			<p>Copyright © CLOUD TOGGLE {new Date().getFullYear()}. All rights reserved.</p>
 			<p class="flex gap-5">
-				<a href="/terms-and-conditions/" class="hover:text-ink-950">Terms and Conditions</a>
-				<a href="/privacy-policy/" class="hover:text-ink-950">Privacy Policy</a>
+				<a href="/terms-and-conditions/" class="hover:text-white">Terms and Conditions</a>
+				<a href="/privacy-policy/" class="hover:text-white">Privacy Policy</a>
 			</p>
 		</div>
 	</div>
