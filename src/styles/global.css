@@ -12,9 +12,13 @@
 	--color-brand-200: #b3d6ff;
 	--color-brand-400: #5eaeff;
 	--color-brand-500: #2495fe;
-	--color-brand-600: #1578e0;
-	--color-brand-700: #1a5fb4;
-	--color-indigo-app: #374fa2;
+	--color-brand-600: #3850a4; /* original cloudtoggle.com nav / app header blue */
+	--color-brand-700: #2c4088;
+
+	--color-nav: #3850a4;
+	--color-nav-700: #2c4088;
+	--color-nav-800: #1f2e66;
+	--color-night: #111a3f; /* deep indigo for dark sections */
 
 	--color-on: #03d908;
 	--color-on-soft: #e4fbe5;

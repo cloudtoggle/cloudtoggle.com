@@ -13,12 +13,12 @@ const nav = [
 ];
 ---
 
-<header class="sticky top-0 z-50 border-b border-ink-100/80 bg-white/80 backdrop-blur-xl">
-	<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-md focus:bg-white focus:px-3 focus:py-2 focus:shadow-card">Skip to content</a>
+<header class="sticky top-0 z-50 bg-nav text-white shadow-[0_1px_0_rgb(255_255_255/0.08)_inset,0_8px_24px_-16px_rgb(17_26_63/0.6)]">
+	<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-md focus:bg-white focus:px-3 focus:py-2 focus:text-ink-950 focus:shadow-card">Skip to content</a>
 	<div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
 		<a href="/" class="flex items-center gap-2.5" aria-label="CLOUD TOGGLE home">
 			<Image src={logo} alt="" width={44} height={33} class="h-8 w-auto" loading="eager" />
-			<span class="text-[15px] font-semibold tracking-[0.04em] text-ink-950">CLOUD TOGGLE</span>
+			<span class="text-[15px] font-semibold tracking-[0.04em] text-white">CLOUD TOGGLE</span>
 		</a>
 
 		<nav class="hidden items-center gap-1 md:flex" aria-label="Primary">
@@ -26,7 +26,7 @@ const nav = [
 				<a
 					href={item.href}
 					rel={item.external ? 'noopener' : undefined}
-					class="rounded-full px-3.5 py-2 text-sm text-ink-500 transition-colors hover:bg-ink-50 hover:text-ink-950"
+					class="rounded-full px-3.5 py-2 text-sm text-white/80 transition-colors hover:bg-white/10 hover:text-white"
 				>
 					{item.label}
 				</a>
@@ -34,14 +34,14 @@ const nav = [
 		</nav>
 
 		<div class="hidden items-center gap-2 md:flex">
-			<Button href={LINKS.login} variant="ghost">Log in</Button>
-			<Button href={LINKS.demo} variant="secondary" external>Book a Demo</Button>
-			<Button href={LINKS.trial}>Start Free Trial</Button>
+			<Button href={LINKS.login} variant="navGhost">Log in</Button>
+			<Button href={LINKS.demo} variant="navSecondary" external>Book a Demo</Button>
+			<Button href={LINKS.trial} variant="navPrimary">Start Free Trial</Button>
 		</div>
 
 		<button
 			type="button"
-			class="inline-flex size-10 items-center justify-center rounded-full text-ink-900 hover:bg-ink-50 md:hidden"
+			class="inline-flex size-10 items-center justify-center rounded-full text-white hover:bg-white/10 md:hidden"
 			aria-expanded="false"
 			aria-controls="mobile-menu"
 			aria-label="Open menu"
@@ -54,15 +54,15 @@ const nav = [
 		</button>
 	</div>
 
-	<div id="mobile-menu" class="hidden border-t border-ink-100 bg-white md:hidden" data-menu>
+	<div id="mobile-menu" class="hidden border-t border-white/10 bg-nav-700 md:hidden" data-menu>
 		<nav class="mx-auto flex max-w-6xl flex-col px-5 py-4" aria-label="Mobile">
 			{nav.map((item) => (
-				<a href={item.href} class="rounded-lg px-3 py-3 text-base text-ink-700 hover:bg-ink-50" rel={item.external ? 'noopener' : undefined}>{item.label}</a>
+				<a href={item.href} class="rounded-lg px-3 py-3 text-base text-white/90 hover:bg-white/10" rel={item.external ? 'noopener' : undefined}>{item.label}</a>
 			))}
-			<a href={LINKS.login} class="rounded-lg px-3 py-3 text-base text-ink-700 hover:bg-ink-50">Log in</a>
+			<a href={LINKS.login} class="rounded-lg px-3 py-3 text-base text-white/90 hover:bg-white/10">Log in</a>
 			<div class="mt-3 grid grid-cols-2 gap-3">
-				<Button href={LINKS.demo} variant="secondary" external>Book a Demo</Button>
-				<Button href={LINKS.trial}>Start Free Trial</Button>
+				<Button href={LINKS.demo} variant="navSecondary" external>Book a Demo</Button>
+				<Button href={LINKS.trial} variant="navPrimary">Start Free Trial</Button>
 			</div>
 		</nav>
 	</div>
