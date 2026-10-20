@@ -1,0 +1,170 @@
+@font-face {
+	font-family: 'Geist Variable';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 100 900;
+	src: url('../fonts/geist-latin-wght-normal.woff2') format('woff2-variations');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: 'Geist Variable';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 100 900;
+	src: url('../fonts/geist-latin-ext-wght-normal.woff2') format('woff2-variations');
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+	font-family: 'Geist Mono Variable';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 100 900;
+	src: url('../fonts/geist-mono-latin-wght-normal.woff2') format('woff2-variations');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@import 'tailwindcss';
+@source "../cloudtoggle/**/*.php";
+@source "../page-content/*.html";
+
+@theme {
+	--font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+	--font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, monospace;
+
+	/* Brand, carried over from the existing Cloud Toggle site and app */
+	--color-brand-50: #eef6ff;
+	--color-brand-100: #d9eaff;
+	--color-brand-200: #b3d6ff;
+	--color-brand-400: #5eaeff;
+	--color-brand-500: #2495fe;
+	--color-brand-600: #3850a4; /* original cloudtoggle.com nav / app header blue */
+	--color-brand-700: #2c4088;
+
+	--color-nav: #3850a4;
+	--color-nav-700: #2c4088;
+	--color-nav-800: #1f2e66;
+	--color-night: #111a3f; /* deep indigo for dark sections */
+
+	--color-on: #03d908;
+	--color-on-soft: #e4fbe5;
+	--color-off: #cc0000;
+
+	--color-ink-950: #080d19;
+	--color-ink-900: #0d1526;
+	--color-ink-800: #16213a;
+	--color-ink-700: #2a3754;
+	--color-ink-500: #5b6785;
+	--color-ink-400: #7f8aa5;
+	--color-ink-200: #dde2ec;
+	--color-ink-100: #eceff5;
+	--color-ink-50: #f6f8fb;
+
+	--shadow-card: 0 1px 2px rgb(13 21 38 / 0.04), 0 8px 24px -12px rgb(13 21 38 / 0.12);
+	--shadow-window: 0 2px 4px rgb(13 21 38 / 0.04), 0 24px 60px -20px rgb(13 21 38 / 0.28);
+
+	--animate-pulse-soft: pulse-soft 2.4s ease-in-out infinite;
+	@keyframes pulse-soft {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.55; }
+	}
+}
+
+@layer base {
+	html {
+		scroll-behavior: smooth;
+		scroll-padding-top: 5rem;
+		-webkit-text-size-adjust: 100%;
+	}
+	body {
+		@apply bg-white font-sans text-ink-900 antialiased;
+		font-feature-settings: 'ss01', 'cv11';
+	}
+	:focus-visible {
+		@apply outline-2 outline-offset-2 outline-brand-500;
+	}
+	::selection {
+		@apply bg-brand-200 text-ink-950;
+	}
+}
+
+@layer components {
+	.eyebrow {
+		@apply font-mono text-xs font-medium uppercase tracking-[0.14em] text-brand-600;
+	}
+	.h-display {
+		@apply text-balance font-semibold tracking-[-0.035em] text-ink-950;
+	}
+	/* Blog prose, shared by migrated posts */
+	.prose-ct {
+		@apply text-[1.0625rem] leading-8 text-ink-700;
+	}
+	.prose-ct > * + * { @apply mt-6; }
+	.prose-ct h2 { @apply mt-14 text-2xl font-semibold tracking-tight text-ink-950 sm:text-3xl; }
+	.prose-ct h3 { @apply mt-10 text-xl font-semibold tracking-tight text-ink-950; }
+	.prose-ct h4 { @apply mt-8 text-lg font-semibold text-ink-950; }
+	.prose-ct a { @apply font-medium text-brand-600 underline decoration-brand-200 underline-offset-4 hover:decoration-brand-500; }
+	.prose-ct strong { @apply font-semibold text-ink-950; }
+	.prose-ct ul { @apply list-disc space-y-2 pl-6 marker:text-brand-400; }
+	.prose-ct ol { @apply list-decimal space-y-2 pl-6 marker:text-ink-400; }
+	.prose-ct img { @apply h-auto max-w-full rounded-xl border border-ink-100; }
+	.prose-ct blockquote { @apply border-l-4 border-brand-200 pl-5 italic text-ink-500; }
+	.prose-ct code { @apply rounded bg-ink-50 px-1.5 py-0.5 font-mono text-[0.9em] text-ink-900; }
+	.prose-ct pre { @apply overflow-x-auto rounded-xl bg-ink-950 p-5 font-mono text-sm leading-6 text-ink-100; }
+	.prose-ct pre code { @apply bg-transparent p-0 text-inherit; }
+	.prose-ct table { @apply block w-full overflow-x-auto text-left text-base; }
+	.prose-ct th { @apply border-b border-ink-200 bg-ink-50 px-4 py-2 font-semibold text-ink-950; }
+	.prose-ct td { @apply border-b border-ink-100 px-4 py-2 align-top; }
+	.prose-ct hr { @apply border-ink-100; }
+}
+
+/* Scroll-reveal: only hidden when JS has opted in, so content never depends on JS */
+.js [data-reveal] {
+	opacity: 0;
+	transform: translateY(14px);
+	transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+	transition-delay: var(--reveal-delay, 0ms);
+}
+.js [data-reveal].is-visible {
+	opacity: 1;
+	transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+	html { scroll-behavior: auto; }
+	.js [data-reveal] { opacity: 1; transform: none; transition: none; }
+	* { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
+
+/* ---- WordPress-specific additions ---- */
+.admin-bar .ct-header { top: 32px; }
+@media (max-width: 782px) { .admin-bar .ct-header { top: 46px; } }
+html { scroll-padding-top: 5rem; }
+.screen-reader-text { @apply sr-only; }
+
+/* Calculator preset buttons (was a component-scoped style in Astro) */
+.preset[aria-pressed='true'] {
+	border-color: var(--color-brand-400);
+	background-color: rgb(36 149 254 / 0.12);
+}
+
+/* Gutenberg content inside blog posts and pages */
+.prose-ct figure { @apply my-8; }
+.prose-ct figure img { @apply my-0; }
+.prose-ct figcaption, .prose-ct .wp-caption-text { @apply mt-3 text-center text-sm text-ink-500; }
+.prose-ct .alignleft { @apply float-left mr-6 mb-4 max-w-[50%]; }
+.prose-ct .alignright { @apply float-right ml-6 mb-4 max-w-[50%]; }
+.prose-ct .aligncenter { @apply mx-auto; }
+.prose-ct .wp-block-table { @apply overflow-x-auto; }
+.prose-ct iframe { @apply max-w-full; }
+.prose-ct .wp-block-embed iframe, .prose-ct .wp-has-aspect-ratio iframe { @apply aspect-video h-auto w-full rounded-xl; }
+
+/* WooCommerce cart, checkout and account pages: keep readable without the prose treatment */
+.ct-shop { @apply text-ink-700; }
+.ct-shop a { @apply text-brand-600 hover:underline; }
+.ct-shop input[type='text'], .ct-shop input[type='email'], .ct-shop input[type='password'], .ct-shop input[type='tel'], .ct-shop select, .ct-shop textarea {
+	@apply w-full rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-ink-900;
+}
+.ct-shop .button, .ct-shop button[type='submit'], .ct-shop .wp-element-button {
+	@apply inline-flex h-10 cursor-pointer items-center justify-center rounded-full bg-brand-600 px-5 text-sm font-medium text-white hover:bg-brand-700;
+}
+.ct-shop table { @apply w-full text-left; }
+.ct-shop th, .ct-shop td { @apply border-b border-ink-100 px-3 py-3 align-top; }

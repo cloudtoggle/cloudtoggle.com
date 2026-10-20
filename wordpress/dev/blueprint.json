@@ -1,0 +1,14 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/",
+  "preferredVersions": { "php": "8.2", "wp": "latest" },
+  "features": { "networking": true },
+  "steps": [
+    { "step": "login", "username": "admin", "password": "password" },
+    { "step": "activateTheme", "themeFolderName": "cloudtoggle" },
+    {
+      "step": "runPHP",
+      "code": "<?php\nrequire '/wordpress/wp-load.php';\nwp_set_current_user(1);\nupdate_option('blogname','CLOUD TOGGLE');\nupdate_option('blogdescription','Power off idle AWS and Azure servers on a schedule.');\nglobal $wp_rewrite; $wp_rewrite->set_permalink_structure('/blog-en/%postname%/'); update_option('category_base','category');\nwp_insert_term('Blog','category',['slug'=>'blog-en']);\n$cat = get_category_by_slug('blog-en');\nwp_set_object_terms(0,[],'category');\n$home = wp_insert_post(['post_type'=>'page','post_status'=>'publish','post_title'=>'Home','post_name'=>'home','post_content'=>\"<!-- wp:html -->\\n\".file_get_contents('/wordpress/page-content-src/homepage-all-sections.html').\"\\n<!-- /wp:html -->\"]);\nupdate_post_meta($home,'_wp_page_template','page-templates/template-landing.php');\nupdate_option('show_on_front','page'); update_option('page_on_front',$home);\n$contact = wp_insert_post(['post_type'=>'page','post_status'=>'publish','post_title'=>'Contact','post_name'=>'contact','post_content'=>\"<!-- wp:html -->\\n\".file_get_contents('/wordpress/page-content-src/contact.html').\"\\n<!-- /wp:html -->\"]);\nupdate_post_meta($contact,'_wp_page_template','page-templates/template-landing.php');\nwp_insert_post(['post_type'=>'page','post_status'=>'publish','post_title'=>'Privacy Policy','post_name'=>'privacy-policy','post_content'=>'<h2>Introduction</h2><p>Sample legal page content.</p><ul><li>One</li><li>Two</li></ul>']);\nfor($i=1;$i<=14;$i++){ wp_insert_post(['post_status'=>'publish','post_title'=>\"Sample cloud cost guide number $i\",'post_category'=>[$cat->term_id],'post_excerpt'=>'A practical guide to cutting cloud waste by scheduling non-production servers off outside working hours.','post_content'=>'<p>Intro paragraph about cloud costs and why idle servers matter. '.str_repeat('Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',12).'</p><h2>Why it matters</h2><p>More text here with a <a href=\"/contact/\">link</a> and <strong>bold copy</strong>.</p><ul><li>First point</li><li>Second point</li></ul><h3>A table</h3><figure class=\"wp-block-table\"><table><thead><tr><th>Plan</th><th>Price</th></tr></thead><tbody><tr><td>Basic</td><td>$49</td></tr></tbody></table></figure><blockquote>A short quote.</blockquote><pre><code>aws ec2 stop-instances --instance-ids i-123</code></pre><p>'.str_repeat('Closing words. ',30).'</p>']); }\nflush_rewrite_rules();\n"
+    }
+  ]
+}
